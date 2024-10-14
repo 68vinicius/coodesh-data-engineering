@@ -48,6 +48,5 @@ INSERT INTO vendas (data_venda,id_produto, id_cliente, quantidade, valor_unitari
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', sales_data)
 
 conn.commit()
-
 print(f'{len(sales_data)} registros incluídos no SQLite')
 conn.close()
