@@ -1,0 +1,2 @@
+id,data_venda,id_produto,id_cliente,quantidade,valor_unitario,valor_total,id_vendedor,regiao,total_vendas
+487,2023-05-24,110,1472,7,15.13,105.91,17,Oeste,741.37

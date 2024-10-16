@@ -1,0 +1,2 @@
+id,data_venda,id_produto,id_cliente,quantidade,valor_unitario,valor_total,id_vendedor,regiao,total_vendas
+316,2023-09-14,107,1155,10,60.48,604.8,3,Sul,6048.0

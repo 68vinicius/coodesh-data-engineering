@@ -1,0 +1,2 @@
+id,data_venda,id_produto,id_cliente,quantidade,valor_unitario,valor_total,id_vendedor,regiao,total_vendas
+420,2023-05-15,102,1522,2,85.97,171.94,8,Sul,343.88

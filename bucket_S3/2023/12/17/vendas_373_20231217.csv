@@ -1,0 +1,2 @@
+id,data_venda,id_produto,id_cliente,quantidade,valor_unitario,valor_total,id_vendedor,regiao,total_vendas
+373,2023-12-17,108,1601,8,31.13,249.04,4,Oeste,1992.32

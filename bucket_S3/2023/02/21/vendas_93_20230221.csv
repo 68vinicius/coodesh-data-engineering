@@ -1,0 +1,2 @@
+id,data_venda,id_produto,id_cliente,quantidade,valor_unitario,valor_total,id_vendedor,regiao,total_vendas
+93,2023-02-21,103,1474,6,78.26,469.56,6,Centro,2817.36

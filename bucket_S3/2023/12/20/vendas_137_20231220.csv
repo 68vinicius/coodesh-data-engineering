@@ -1,0 +1,2 @@
+id,data_venda,id_produto,id_cliente,quantidade,valor_unitario,valor_total,id_vendedor,regiao,total_vendas
+137,2023-12-20,102,1648,3,87.74,263.22,11,Norte,789.6600000000001
