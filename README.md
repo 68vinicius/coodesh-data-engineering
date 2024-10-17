@@ -5,17 +5,19 @@
 Uma empresa está migrando dados de um sistema legado (representado por um banco de dados SQL) para sua nova arquitetura baseada em AWS. Você precisa criar um pipeline de dados que extraia informações do banco de dados, transforme-as e as carregue no Data Lake (S3).
 
 ## **Tópicos**
-1. [Introdução](#Introdução)
-2. [Visão Geral do Projeto](#Visão-Geral-do-Projeto)
-3. [Arquitetura do Pipeline](#arquitetura-do-pipeline)
+1. [Introdução](#1-introdução)
+2. [Visão Geral do Projeto](#2-visão-geral-do-projeto)
+3. [Arquitetura do Pipeline](#3-arquitetura-do-pipeline)
     - [Extração de Dados](#extração-de-dados)
     - [Transformação de Dados](#transformação-de-dados)
     - [Carregamento de Dados](#carregamento-de-dados)
-4. [Visualização de Dados](#visualizacao-de-dados)
-5. [Consultas SQL para Análise de Vendas](#consultas-sql-para-análise-de-vendas)
-6. [Escolha das Ferramentas e Tecnologias](#escolha-das-ferramentas-e-tecnologias)
-7. [Possibilidades de Melhorias Futuras](#Possibilidades-de-Melhorias-Futuras)
-8. [LinkedIn](https://www.linkedin.com/in/viunicius/)
+4. [Visualização de Dados](#4-visualização-de-dados)
+5. [Consultas SQL para Análise de Vendas](#5-consultas-sql-para-análise-de-vendas)
+6. [Modelo de Machine Learning](#6-modelo-de-machine-learning-tempo-não-permitiu)
+7. [Escolha das Ferramentas e Tecnologias](#7-escolha-das-ferramentas-e-tecnologias)
+8. [Possibilidades de Melhorias Futuras](#8-possibilidades-de-melhorias-futuras)
+9. [Configuração Inicial](#9-configuração-inicial)
+10. [LinkedIn](https://www.linkedin.com/in/viunicius/)
 
 ---
 
@@ -50,7 +52,7 @@ O projeto segue a metodologia de pipeline de dados, onde as etapas são bem defi
 │   ├── transform.py           # Script que transforma os dados extraídos em um DataFrame.
 │   └── loading.py             # Script que carrega os dados transformados simulando o carregamento para S3.
 ├── utils
-│   └── generate_sales_data.py # Gera dados de vendas fictícios e os insere no banco de dados.
+│   └── generate_sales_data.py # Gera 500 registros de dados fictícios e os insere no banco de dados.
 ├── pipeline.py                # Script principal que orquestra a execução do pipeline ETL.
 └── README.md                  # Documentação do projeto.
 ```
@@ -58,14 +60,14 @@ O projeto segue a metodologia de pipeline de dados, onde as etapas são bem defi
 ---
 
 ## **3. Arquitetura do Pipeline**
-
+### **Diagrama do Projeto**
 ![Imagem do código](https://i.imgur.com/0rXZtrW.png)
 A arquitetura desenvolvida neste projeto utiliza uma abordagem de armazenamento em camadas, dividindo os dados em três estágios principais: bruto, processamento e consulta. Essa estrutura visa otimizar custos e desempenho, permitindo uma gestão eficiente dos dados.
 
 ### **Extração de Dados**
 Na primeira etapa, os dados de vendas são extraídos do banco de dados SQLite. 
 
-![Imagem do código](https://i.imgur.com/DubBaTe.png)
+![Imagem do código](https://i.imgur.com/l666uda.png)
 A extração é realizada através de uma consulta simples que busca todos os registros da tabela `vendas`.
 
 ### **Transformação de Dados**
@@ -94,7 +96,7 @@ A estrutura em **Parquet** também oferece suporte a tipos de dados mais complex
 
 ## **4. Visualização de Dados**
 
-![Imagem do DashBoard](https://i.imgur.com/wvMxsR8.jpeg)
+![Imagem do DashBoard](https://i.imgur.com/etwUBwA.jpeg)
 
 O dashboard proposto inclui os seguintes elementos para apresentar os insights chave dos dados de vendas:
 
@@ -122,13 +124,25 @@ GROUP BY year(data_venda), month(data_venda)
 ORDER BY ano, mes;
 ```
 
-## **6. Escolha das Ferramentas e Tecnologias**
+---
+
+## **6. Modelo de Machine Learning (Tempo Não Permitiu)**
+
+Para prever vendas futuras, seria possível implementar um modelo utilizando scikit-learn no Amazon SageMaker. A ideia é prever o total de vendas com base em características como data da venda, quantidade vendida, preço unitário, e outros fatores relevantes.
+
+Após a preparação, os dados seriam divididos em conjuntos de treinamento e teste. Diferentes algoritmos de regressão, como Regressão Linear e modelos mais complexos como Random Forest, seriam avaliados para encontrar a melhor adaptação aos dados. O modelo seria treinado com o conjunto de treinamento e validado com métricas como MAE (Erro Absoluto Médio) e R².
+
+Uma vez validado, o modelo poderia ser implantado no Amazon SageMaker, permitindo previsões em tempo real. Isso ajudaria a empresa a ajustar seu estoque e estratégias de marketing de acordo com as previsões de vendas.
+
+---
+
+## **7. Escolha das Ferramentas e Tecnologias**
 
 ### **SQLite**
 O banco de dados SQLite foi escolhido como fonte de dados para o projeto. Ele oferece uma solução simples e eficaz para armazenar e consultar os dados, além de ser fácil de configurar e usar em ambientes de desenvolvimento e testes.
 
 ### **Pandas**
-A biblioteca **Pandas** foi utilizada para a transformação dos dados. Ela permite a manipulação e análise de grandes volumes de dados de forma eficiente e flexível. Pandas é uma ferramenta popular e amplamente utilizada para tarefas de ETL em Python, especialmente em ambientes onde a velocidade de execução e a simplicidade de uso são importantes.
+A biblioteca **Pandas** foi utilizada para a transformação dos dados. Ela permite a manipulação e análise de grandes volumes de dados de forma eficiente e flexível.
 
 ### **Uso de Arquivos Estruturados para ETL**
 A decisão de dividir o processo de ETL em três arquivos distintos (`extract.py`, `transform.py`, `loading.py`) foi intencional para garantir uma melhor organização e manutenibilidade do código. Cada arquivo tem uma responsabilidade clara, seguindo o princípio de separação de preocupações:
@@ -139,34 +153,49 @@ A decisão de dividir o processo de ETL em três arquivos distintos (`extract.py
 Essa estrutura modular facilita alterações futuras, melhora a manutenibilidade ao permitir identificação rápida de problemas, favorece a escalabilidade com adaptações independentes, e promove a colaboração, testabilidade e reusabilidade do código.
 
 ### **Armazenamento de Dados: CSV Simulado para S3**
-A escolha de usar arquivos CSV para simular o carregamento em um **bucket S3** foi uma decisão prática para facilitar a implementação e a validação do pipeline. Embora o CSV seja amplamente utilizado e fácil de entender, ele apresenta limitações, como o tamanho do arquivo e a falta de suporte a tipos de dados complexos. Para um pipeline de produção, seria recomendável o uso de formatos mais eficientes como **Parquet**, que oferece compressão e são otimizados para grandes volumes de dados.
+A escolha de usar arquivos CSV para simular o carregamento em um **bucket S3** foi uma decisão prática para facilitar a implementação e a validação do pipeline. Embora o CSV seja amplamente utilizado e fácil de entender, ele apresenta limitações, como o tamanho do arquivo e a falta de suporte a tipos de dados complexos.
 
 ### **Escalabilidade**
-Embora o pipeline atual funcione bem com um pequeno volume de dados, a escalabilidade será um fator crítico se o volume de dados aumentar. O uso de **AWS S3** e **Parquet** permitiria que o pipeline escalasse para lidar com dados massivos e complexos, com maior eficiência.
+Embora o pipeline atual funcione bem com um pequeno volume de dados, a escalabilidade será um fator crítico se o volume de dados aumentar. O uso de AWS S3 e Parquet, juntamente com a biblioteca **Boto3** para interações com a AWS, permitiria que o pipeline escalasse para lidar com dados massivos e complexos, com maior eficiência.
 
 ---
 
-## **7. Possibilidades de Melhorias Futuras**
+## **8. Possibilidades de Melhorias Futuras**
 
-### **Governança de Dados**
-A governança de dados é crucial para garantir a segurança, conformidade e auditabilidade no gerenciamento de dados. Isso inclui:
-- **Controle de Acesso:** Implementar políticas que definem quem pode acessar quais dados, minimizando o risco de vazamentos e garantindo que apenas usuários autorizados possam interagir com informações sensíveis.
-- **Conformidade:** Manter a conformidade com regulamentações como GDPR e LGPD, que exigem o gerenciamento responsável e transparente dos dados pessoais dos usuários.
+- **Governança de Dados:** Implementar controle de acesso e garantir conformidade com regulamentações como GDPR e LGPD para proteger dados sensíveis.
+  
+- **Integração de CI/CD:** Adotar práticas DevOps para automação de testes, monitoramento e deploy automático, melhorando agilidade e segurança no desenvolvimento.
 
-### **Integração de CI/CD**
-Para promover uma abordagem mais ágil e segura no desenvolvimento e implementação do pipeline, a adoção de práticas DevOps juntamente com Integração Contínua e Entrega Contínua (CI/CD) é uma prioridade para o futuro. Isso permitirá:
-- **Automação de Testes**: Testar automaticamente cada componente do pipeline antes de implementações, garantindo que mudanças não quebrem funcionalidades existentes.
-- **Monitoramento**: Integrar ferramentas de monitoramento para garantir que o pipeline esteja operando conforme o esperado e detectar problemas rapidamente.
-- **Deploy Automático**: Facilitar o lançamento de novas versões do pipeline, minimizando o tempo de inatividade e aumentando a eficiência.
+- **Testes no Pipeline:** Implementar testes unitários e de integração com **pytest** para assegurar a qualidade e integridade dos dados.
 
-### **Testes no Pipeline**
-A inclusão de testes é fundamental para assegurar a qualidade e a integridade dos dados ao longo do processo de ETL. A implementação de testes unitários e de integração, utilizando frameworks como o **pytest**, ajudaria a:
-- **Verificar a Funcionalidade**: Garantir que cada componente do pipeline funcione conforme o esperado.
-- **Detectar Problemas**: Identificar rapidamente falhas ou inconsistências nos dados antes que cheguem ao ambiente de produção.
-
-### **Automatização e Orquestração**
-Para um pipeline de produção, a integração com ferramentas de orquestração como **Apache Airflow** ou **AWS Step Functions** seria altamente benéfica. Essas ferramentas permitiriam automatizar a execução do pipeline em intervalos regulares, além de possibilitar a monitorização e a gestão de falhas.
+- **Automatização e Orquestração:** Integrar ferramentas como **Apache Airflow** ou **AWS Step Functions** para automatizar a execução do pipeline e gerenciar falhas.
 
 ---
 
-## **8. Conecte-se comigo no [LinkedIn](https://www.linkedin.com/in/viunicius/)**
+## **9. Configuração Inicial**
+
+1. Clone o repositório:
+
+```
+git clone https://github.com/68vinicius/coodesh-data-engineering.git
+cd coodesh-data-engineering
+```
+
+2. Instale as dependências do projeto:
+```
+poetry install
+```
+
+3. Execute o ambiente virtual:
+```
+poetry shell
+```
+
+4. Execute o pipeline:
+```
+python pipeline.py
+```
+
+---
+
+## **10. Conecte-se comigo no [LinkedIn](https://www.linkedin.com/in/viunicius/)**
