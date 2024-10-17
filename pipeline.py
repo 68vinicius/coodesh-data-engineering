@@ -4,9 +4,9 @@ import logging
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'ETL'))
 
-from extract import extrair_dados_vendas
-from transform import transformar_dados
-from loading import carregar_para_s3
+from ETL.extract import extrair_dados_vendas
+from ETL.transform import transformar_dados
+from ETL.loading import carregar_para_s3
 
 logging.basicConfig(level=logging.INFO)
 

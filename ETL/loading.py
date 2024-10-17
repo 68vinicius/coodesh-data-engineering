@@ -1,7 +1,8 @@
 import os
 import pandas as pd
 import logging
-from transform import transformar_dados, obter_dados_do_banco
+from transform import transformar_dados
+from extract import extrair_dados_vendas 
 
 logging.basicConfig(level=logging.INFO)
 
@@ -36,7 +37,7 @@ def carregar_para_s3(df):
     logging.info(f'Carregado com sucesso para o bucket S3.')
 
 if __name__ == "__main__":
-    vendas = obter_dados_do_banco()
+    vendas = extrair_dados_vendas() 
     df, contagem_duplicados = transformar_dados(vendas)
 
     logging.info(f'Número de duplicatas encontradas: {contagem_duplicados}')
