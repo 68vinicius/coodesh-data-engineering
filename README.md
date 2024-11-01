@@ -65,7 +65,7 @@ O projeto segue a metodologia de pipeline de dados, onde as etapas são bem defi
 
 ## **3. Arquitetura do Pipeline**
 ### **Diagrama do Projeto**
-![Diagrama do Pipeline](flowcharts/fluxograma_pipeline.png)
+![Diagrama do Pipeline](flowcharts/flowchart_overview.png)
 A arquitetura desenvolvida neste projeto utiliza uma abordagem de armazenamento em camadas, dividindo os dados em três estágios principais: bruto, processamento e consulta. Essa estrutura visa otimizar custos e desempenho, permitindo uma gestão eficiente dos dados.
 
 ### **Extração de Dados**
