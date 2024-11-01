@@ -47,12 +47,16 @@ O projeto segue a metodologia de pipeline de dados, onde as etapas são bem defi
 │           ├── 03             # Dia
 │               └── vendas_01_20230101.csv
 ├── ETL
-│   ├── consulta.sql           # Consulta SQL para análise de vendas.
 │   ├── extract.py             # Script que extrai dados do banco de dados SQLite.
 │   ├── transform.py           # Script que transforma os dados extraídos em um DataFrame.
 │   └── loading.py             # Script que carrega os dados transformados simulando o carregamento para S3.
+├── flowcharts                 # Pasta contendo todos os fluxogramas do projeto.
+│   └── flowchart_overview.png        
 ├── utils
 │   └── generate_sales_data.py # Gera 500 registros de dados fictícios e os insere no banco de dados.
+├── visualization              # Pasta para consultas e visualização de dados.
+│   ├── consulta.sql           # Consulta SQL para análise de vendas totais por mês.
+│   └── dashboard.jpg          # Esboço do dashboard para visualização de dados.
 ├── pipeline.py                # Script principal que orquestra a execução do pipeline ETL.
 └── README.md                  # Documentação do projeto.
 ```
@@ -61,19 +65,19 @@ O projeto segue a metodologia de pipeline de dados, onde as etapas são bem defi
 
 ## **3. Arquitetura do Pipeline**
 ### **Diagrama do Projeto**
-![Imagem do código](https://i.imgur.com/0rXZtrW.png)
+![Diagrama do Pipeline](flowcharts/fluxograma_pipeline.png)
 A arquitetura desenvolvida neste projeto utiliza uma abordagem de armazenamento em camadas, dividindo os dados em três estágios principais: bruto, processamento e consulta. Essa estrutura visa otimizar custos e desempenho, permitindo uma gestão eficiente dos dados.
 
 ### **Extração de Dados**
 Na primeira etapa, os dados de vendas são extraídos do banco de dados SQLite. 
 
-![Imagem do código](https://i.imgur.com/l666uda.png)
+![Diagrama de Extração](flowcharts/flowchart_extract.png)
 A extração é realizada através de uma consulta simples que busca todos os registros da tabela `vendas`.
 
 ### **Transformação de Dados**
 A transformação dos dados é feita usando **Pandas**, uma biblioteca popular de Python. As etapas de transformação incluem:
 
-![Imagem do código](https://i.imgur.com/4TdMug4.png)
+![Diagrama de Transformação](flowcharts/flowchart_transform.png)
 - **Remoção de Duplicatas**: Para garantir a qualidade dos dados, qualquer registro duplicado é identificado e removido.
 - **Conversão de Datas**: As datas são convertidas para o formato ISO, facilitando as consultas e a análise temporal dos dados.
 - **Cálculo de Métricas**: É calculado o total de vendas por dia, uma métrica importante para a análise de desempenho.
@@ -81,7 +85,7 @@ A transformação dos dados é feita usando **Pandas**, uma biblioteca popular d
 ### **Carregamento de Dados**
 Após a transformação, os dados são organizados em um formato que simula o carregamento para o S3. Os dados são particionados por **ano**, **mês** e **dia**, e armazenados como arquivos CSV. 
 
-![Imagem do código](https://i.imgur.com/G28YuOj.png)
+![Diagrama de Carregamento](flowcharts/flowchart_loading.png)
 Cada venda é salva em um arquivo CSV por registro, e todos os arquivos são armazenados em uma estrutura de diretórios que simula um bucket S3.
 
 #### Limitações e Melhorias Futuras:
@@ -96,7 +100,7 @@ A estrutura em **Parquet** também oferece suporte a tipos de dados mais complex
 
 ## **4. Visualização de Dados**
 
-![Imagem do DashBoard](https://i.imgur.com/etwUBwA.jpeg)
+![Imagem do DashBoard](visualization/dashboard.jpg)
 
 O dashboard proposto inclui os seguintes elementos para apresentar os insights chave dos dados de vendas:
 
